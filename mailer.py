@@ -71,10 +71,10 @@ def smtp_send(smtp_config, m):
     msg['Subject'] = m['subject']
     msg['To'] = m['to']
     msg['From'] = from_email
-    s = smtplib.SMTP(smtp_config['host'], smtp_config['host'])
+    s = smtplib.SMTP(smtp_config['host'], smtp_config['port'])
     if smtp_config['starttls']:
         s.starttls()
-    s.login(smtp_config['login'], smtp_config['password'])
+    s.login(smtp_config['username'], smtp_config['password'])
     s.send_message(msg)
     s.quit()
 

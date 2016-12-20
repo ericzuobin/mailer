@@ -3,7 +3,7 @@
         "host":"mail.zuobin.net",
         "starttls" : true,
         "port": 587,
-        "login": "xxxxxx@zuobin.net",
+        "username": "xxxxxx@zuobin.net",
         "password":"mailpass"
     },
     "listen": {
