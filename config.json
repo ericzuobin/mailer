@@ -1,24 +1,13 @@
 {
-    "imap": {
-        "host": "mail.gandi.net",
-        "ssl" : false,
-        "port": 143,
-        "login": "blog@mydomain.com",
-        "password":"MYPASSWORD"
-    },
     "smtp": {
-        "host":"mail.gandi.net",
+        "host":"mail.zuobin.net",
         "starttls" : true,
         "port": 587,
-        "login": "blog@mydomain.com",
-        "password":"MYPASSWORD"
+        "login": "xxxxxx@zuobin.net",
+        "password":"mailpass"
     },
     "listen": {
         "host": "127.0.0.1",
         "port": 8088
-    },
-    "post": {
-        "default": "",
-        "routing": []
     }
 }
