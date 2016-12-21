@@ -1,10 +1,10 @@
 {
     "smtp": {
-        "host":"mail.zuobin.net",
-        "starttls" : true,
-        "port": 587,
-        "username": "xxxxxx@zuobin.net",
-        "password":"mailpass"
+        "host":"smtp.mxhichina.com",
+        "starttls": false,
+        "port": 25,
+        "username": "admin@zuobin.net",
+        "password":"pass"
     },
     "listen": {
         "host": "127.0.0.1",
