@@ -6,6 +6,8 @@ import smtplib
 import sys
 import json
 import logging
+from smtpd import COMMASPACE
+
 from flask import request
 from email.mime.text import MIMEText
 
@@ -59,7 +61,7 @@ def send_mail():
         smtp_send(config['smtp'], content)
         status_code = 200
     except Exception, e:
-        logger.error('发送邮件出错,{}', e)
+        logger.error('发送邮件出错,{}', e.message)
     return 'send', status_code
 
 
@@ -69,7 +71,7 @@ def smtp_send(smtp_config, m):
         from_email = m['from']
     msg = MIMEText(m['content'])
     msg['Subject'] = m['subject']
-    msg['To'] = m['to']
+    msg['To'] = COMMASPACE.join(m['to'])
     msg['From'] = from_email
     s = smtplib.SMTP(smtp_config['host'], smtp_config['port'])
     if smtp_config['starttls']:
