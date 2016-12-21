@@ -50,6 +50,7 @@ config = load_config()
 
 @app.route('/')
 def init():
+    logger.error("IP come %s", request.remote_addr)
     return 'Hello Mailer!'
 
 
@@ -61,7 +62,7 @@ def send_mail():
         smtp_send(config['smtp'], content)
         status_code = 200
     except Exception, e:
-        logger.error('发送邮件出错,{}', e.message)
+        logger.error('发送邮件出错,%s', e.message)
     return 'send', status_code
 
 
