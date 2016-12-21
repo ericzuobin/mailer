@@ -3,11 +3,15 @@
         "host":"smtp.mxhichina.com",
         "starttls": false,
         "port": 25,
-        "username": "admin@zuobin.net",
+        "username": "xxx@zuobin.net",
         "password":"pass"
     },
     "listen": {
-        "host": "127.0.0.1",
+        "host": "172.16.22.84",
         "port": 8088
-    }
+    },
+    "whiteList": [
+        "127.0.0.1",
+        "172.16.22.1/28"
+    ]
 }
