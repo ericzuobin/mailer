@@ -41,7 +41,7 @@ def configure_logging(level):
     logger.addHandler(ch)
 
 logger = logging.getLogger(__name__)
-configure_logging(logging.DEBUG)
+configure_logging(logging.ERROR)
 
 config = load_config()
 
@@ -64,7 +64,7 @@ def send_mail():
 
 
 def smtp_send(smtp_config, m):
-    from_email = smtp_config['login']
+    from_email = smtp_config['username']
     if 'from' in m:
         from_email = m['from']
     msg = MIMEText(m['content'])
@@ -75,7 +75,7 @@ def smtp_send(smtp_config, m):
     if smtp_config['starttls']:
         s.starttls()
     s.login(smtp_config['username'], smtp_config['password'])
-    s.send_message(msg)
+    s.sendmail(from_email, m['to'], msg.as_string())
     s.quit()
 
 
