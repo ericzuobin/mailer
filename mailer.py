@@ -7,6 +7,7 @@ import socket
 import sys
 import json
 import logging
+from logging.handlers import RotatingFileHandler
 from smtpd import COMMASPACE
 
 import struct
@@ -16,6 +17,7 @@ from email.mime.text import MIMEText
 from flask import Flask
 
 app = Flask(__name__)
+LOG_FILE = sys.path[0] + os.sep + 'mailer.log'
 
 
 def load_config():
@@ -25,8 +27,7 @@ def load_config():
     logger.info('加载配置 %s' % config_path)
     try:
         with open(config_path, 'rt') as config_file:
-            config = json.loads(config_file.read())
-            return config
+            return json.loads(config_file.read())
     except IOError:
         logger.error('加载配置 %s 路径不对' % config_path)
         sys.exit(0)
@@ -36,13 +37,12 @@ def load_config():
 
 
 def configure_logging(level):
-    logger.setLevel(level)
-    ch = logging.StreamHandler()
-    ch.setLevel(level)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s'
+    handler = RotatingFileHandler(LOG_FILE, maxBytes=1024 * 1024, backupCount=5)
+    handler.setLevel(level)
+    formatter = logging.Formatter('%(asctime)s - %(filename)s:%(lineno)s - %(name)s - %(levelname)s'
                                   ' - %(message)s')
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
 
 
 def format_subnet(subnet_input):
@@ -99,7 +99,6 @@ config_white_list(config['whiteList'])
 
 @app.route('/')
 def init():
-    logger.error("IP come %s", request.remote_addr)
     if check_ip(request.remote_addr):
         return 'Hello Mailer!'
     else:
@@ -115,7 +114,7 @@ def send_mail():
         status_code = 200
     except Exception, e:
         logger.error('发送邮件出错,%s', e.message)
-    return status_code
+    return '', status_code
 
 
 def smtp_send(smtp_config, m):
