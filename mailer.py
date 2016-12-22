@@ -23,7 +23,7 @@ LOG_FILE = sys.path[0] + os.sep + 'mailer.log'
 def load_config():
     """ 加载配置
     """
-    config_path = sys.path[0] + os.sep + sys.argv[1]
+    config_path = sys.path[0] + os.sep + 'config.json'
     logger.info('加载配置 %s' % config_path)
     try:
         with open(config_path, 'rt') as config_file:
@@ -139,7 +139,6 @@ def check_ip(r_ip):
         if format_subnet(r_ip + "/" + subnet) in white_ip_list:
             return True
     return False
-
 
 if __name__ == '__main__':
     app.run(host=config['listen']['host'],
