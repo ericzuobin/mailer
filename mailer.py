@@ -124,7 +124,7 @@ def smtp_send(smtp_config, m):
         from_email = m['from']
     msg = MIMEText(m['content'])
     msg['Subject'] = m['subject']
-    msg['To'] = COMMASPACE.join(m['to'])
+    msg['To'] = m['to']
     msg['From'] = from_email
     s = smtplib.SMTP(smtp_config['host'], smtp_config['port'])
     if smtp_config['starttls']:
