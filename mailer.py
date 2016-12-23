@@ -8,8 +8,6 @@ import sys
 import json
 import logging
 from logging.handlers import RotatingFileHandler
-from smtpd import COMMASPACE
-
 import struct
 from flask import request
 from email.mime.text import MIMEText
@@ -99,7 +97,11 @@ config_white_list(config['whiteList'])
 
 @app.route('/')
 def init():
-    if check_ip(request.remote_addr):
+    if 'X-Real-Ip' in request.headers:
+        real_ip = request.headers['X-Real-Ip']
+    else:
+        real_ip = request.remote_addr
+    if check_ip(real_ip):
         return 'Hello Mailer!'
     else:
         return '500'
@@ -107,15 +109,20 @@ def init():
 
 @app.route('/sendMail', methods=['POST'])
 def send_mail():
-    status_code = 500
-    try:
-        content = request.json
-        smtp_send(config['smtp'], content)
-        status_code = 200
-        logger.error("接收到请求: %s", content)
-    except Exception, e:
-        logger.error('发送邮件出错,%s', e.message)
-    return '', status_code
+    status_code = '500'
+    if 'X-Real-Ip' in request.headers:
+        real_ip = request.headers['X-Real-Ip']
+    else:
+        real_ip = request.remote_addr
+    if check_ip(real_ip):
+        try:
+            content = request.json
+            smtp_send(config['smtp'], content)
+            status_code = '200'
+            logger.error("接收到请求: %s", content)
+        except Exception, e:
+            logger.error('发送邮件出错,%s', e.message)
+    return status_code
 
 
 def smtp_send(smtp_config, m):
