@@ -119,7 +119,7 @@ def send_mail():
             content = request.json
             smtp_send(config['smtp'], content)
             status_code = '200'
-            logger.error("接收到请求: %s", content)
+            logger.error("接收到%s 请求: %s" % (real_ip, content))
         except Exception, e:
             logger.error('发送邮件出错,%s', e.message)
     return status_code
