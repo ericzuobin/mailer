@@ -129,7 +129,7 @@ def smtp_send(smtp_config, m):
     from_email = smtp_config['username']
     if 'from' in m:
         from_email = m['from']
-    msg = MIMEText(m['content'])
+    msg = MIMEText(m['content'],  _charset='utf-8')
     msg['Subject'] = m['subject']
     msg['To'] = m['to']
     msg['From'] = from_email
